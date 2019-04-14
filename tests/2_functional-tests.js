@@ -30,18 +30,54 @@ suite('Functional Tests', function() {
         .end(function(err, res){
           assert.equal(res.status, 200);
           
-          //fill me in too!
+          assert.equal(res.body.issue_title, 'Title');
+          assert.equal(res.body.issue_text, 'text');
+          assert.equal(res.body.created_by, 'Functional Test - Every field filled in');
+          assert.equal(res.body.assigned_to, 'Chai and Mocha');
+          assert.equal(res.body.status_text, 'In QA');
           
           done();
         });
       });
       
       test('Required fields filled in', function(done) {
+       chai.request(server)
+        .post('/api/issues/test')
+        .send({
+          issue_title: 'Title',
+          issue_text: 'text',
+          created_by: 'Functional Test - Required fields filled in'
+        })
+        .end(function(err, res){
+          assert.equal(res.status, 200);
+          
+          assert.equal(res.body.issue_title, 'Title');
+          assert.equal(res.body.issue_text, 'text');
+          assert.equal(res.body.created_by, 'Functional Test - Required fields filled in');
+          assert.equal(res.body.assigned_to, '');
+          assert.equal(res.body.status_text, '');
+          
+          done();
+        });
         
       });
       
       test('Missing required fields', function(done) {
+       chai.request(server)
+        .post('/api/issues/test')
+        .send({
+          issue_title: 'Title',
+          created_by: 'Functional Test - Missing required fields'
+        })
+        .end(function(err, res){
+          assert.equal(res.status, 200);
+          
+          assert.equal(res.text, 'missing inputs');
+          
+          done();
         
+        });
+      
       });
       
     });
