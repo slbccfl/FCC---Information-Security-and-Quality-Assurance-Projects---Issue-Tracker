@@ -22,7 +22,7 @@ suite('Functional Tests', function() {
         .post('/api/issues/test')
         .send({
           issue_title: 'Title',
-          issue_text: 'text',
+          issue_text: 'text', 
           created_by: 'Functional Test - Every field filled in',
           assigned_to: 'Chai and Mocha',
           status_text: 'In QA'
@@ -84,7 +84,7 @@ suite('Functional Tests', function() {
     
     suite('PUT /api/issues/{project} => text', function() {
       
-      test('No body', function(done) {
+      test('No body', function(done) { 
         
       });
       

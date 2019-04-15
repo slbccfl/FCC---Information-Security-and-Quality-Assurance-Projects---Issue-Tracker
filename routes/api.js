@@ -20,6 +20,14 @@ module.exports = function (app) {
   
     .get(function (req, res){
       var project = req.params.project;
+      var searchQuery = req.query;
+      // if (searchQuery._id) { searchQuery._id = new ObjectId(searchQuery._id)}
+    // following tests for whether searchQuery.open is set to the literal 'true' and sets the parameter to a logical true or false accordingly.
+      if (searchQuery.open) { searchQuery.open = String(searchQuery.open) == "true" }  
+      MongoClient.connect(CONNECTION_STRING, function(err, db) {
+        var collection = db.collection(project);
+        collection.find(searchQuery).toArray(function(err,docs){res.json(docs)});
+      });
       
     })
     
