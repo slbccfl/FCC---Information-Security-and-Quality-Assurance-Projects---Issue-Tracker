@@ -85,7 +85,14 @@ suite('Functional Tests', function() {
     suite('PUT /api/issues/{project} => text', function() {
       
       test('No body', function(done) { 
-        
+        chai.request(server)
+        .put('/api/issues/test')
+        .send({_id: _id1})
+        .end(function(err, res){
+          assert.equal(res.status, 200);
+          assert.equal(res.text, 'no updated field sent');
+          done();
+        });   
       });
       
       test('One field to update', function(done) {
