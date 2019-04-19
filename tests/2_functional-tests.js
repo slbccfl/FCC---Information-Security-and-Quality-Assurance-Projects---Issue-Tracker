@@ -15,6 +15,9 @@ chai.use(chaiHttp);
 
 suite('Functional Tests', function() {
   
+  var _id1;
+  var _id2;
+  
     suite('POST /api/issues/{project} => object with issue data', function() {
       
       test('Every field filled in', function(done) {
@@ -96,11 +99,25 @@ suite('Functional Tests', function() {
       });
       
       test('One field to update', function(done) {
-        
+        chai.request(server)
+        .put('/api/issues/test')
+        .send({_id: _id1, issue_title: 'updated issue title test'})
+        .end(function(err, res){
+          assert.equal(res.status, 200);
+          assert.equal(res.text, 'successfully updated');
+          done();
+        });   
       });
       
       test('Multiple fields to update', function(done) {
-        
+        chai.request(server)
+        .put('/api/issues/test')
+        .send({_id: _id2, issue_title: 'updated issue title (multiple)', issue_text: 'updated issue text for the second issue - multiple fields test', open: 'false'})
+        .end(function(err, res){
+          assert.equal(res.status, 200);
+          assert.equal(res.text, 'successfully updated');
+          done();
+        });   
       });
       
     });
