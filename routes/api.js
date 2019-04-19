@@ -80,7 +80,6 @@ module.exports = function (app) {
             } else {
               res.send('could not update '+issue+' '+err)
             };
-            console.log(doc.value);
           });
         });   
         
