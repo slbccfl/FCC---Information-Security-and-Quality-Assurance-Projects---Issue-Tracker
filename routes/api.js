@@ -88,8 +88,16 @@ module.exports = function (app) {
     })
     
     .delete(function (req, res){
-      var project = req.params.project;
-      
+      if (!req.body._id) {
+        res.send('_id error');
+      } else {
+        MongoClient.connect(CONNECTION_STRING, function(err, db) {
+          var collection = db.collection(req.params.project);
+          collection.findAndRemove({_id:new ObjectId(req.body._id)},function(err,doc){
+            (!err) ? res.send('deleted ' + req.body._id) : res.send('could not delete ' + req.body._id + ' ' + err);
+          });
+        });
+      }
     });
     
 };
