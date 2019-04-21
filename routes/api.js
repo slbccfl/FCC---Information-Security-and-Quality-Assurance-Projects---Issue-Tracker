@@ -72,6 +72,7 @@ module.exports = function (app) {
           open: req.body.open = String(req.body.open) == "true",
           status_text: req.body.status_text || ''
         };
+        // console.log('issue to put: ' + issue.stringify()); 
         MongoClient.connect(CONNECTION_STRING, function(err, db) {
           var collection = db.collection(project);
           collection.findAndModify({_id:new ObjectId(issueID)},[['_id',1]],{$set: issue},{new: true},function(err,doc){
