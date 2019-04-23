@@ -110,7 +110,7 @@ suite('Functional Tests', function() {
         .send({_id: _id1})
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.equal(res.text, 'no updated field sent');
+          assert.equal(res.text, 'no updated fields sent');
           done();
         });   
       });

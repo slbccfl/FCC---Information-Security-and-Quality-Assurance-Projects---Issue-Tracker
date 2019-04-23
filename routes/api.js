@@ -60,26 +60,21 @@ module.exports = function (app) {
     .put(function (req, res){
       var project = req.params.project;
       var issueID = req.body._id;
-      if (Object.keys(req.body).length === 0) {
-        res.send('no updated field sent');
+      var issueUpdates = req.body;
+      delete issueUpdates._id;
+      for (var element in issueUpdates) { if (!issueUpdates[element]) { delete issueUpdates[element] } }
+      if (issueUpdates.open) issueUpdates.open = String(issueUpdates.open) == "true"
+      if (Object.keys(issueUpdates.body).length === 0) {
+        res.send('no updated fields sent');
       } else {
-        var issue = {
-          issue_title: req.body.issue_title,
-          issue_text: req.body.issue_text,
-          updated_on: new Date(),
-          created_by: req.body.created_by,
-          assigned_to: req.body.assigned_to || '',
-          open: req.body.open = String(req.body.open) == "true",
-          status_text: req.body.status_text || ''
-        };
-        // console.log('issue to put: ' + issue.stringify()); 
+        issueUpdates.updated_on = new Date();
         MongoClient.connect(CONNECTION_STRING, function(err, db) {
           var collection = db.collection(project);
-          collection.findAndModify({_id:new ObjectId(issueID)},[['_id',1]],{$set: issue},{new: true},function(err,doc){
+          collection.findAndModify({_id:new ObjectId(issueID)},[['_id',1]],{$set: issueUpdates},{new: true},function(err,doc){
             if (!err) {
               res.send('successfully updated') 
             } else {
-              res.send('could not update '+issue+' '+err)
+              res.send('could not update '+issueUpdates+' '+err)
             };
           });
         });   
