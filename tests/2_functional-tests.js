@@ -41,6 +41,7 @@ suite('Functional Tests', function() {
           assert.property(res.body, 'open');
           assert.property(res.body, 'status_text');
           assert.property(res.body, '_id');
+          _id1 = res.body._id; 
           assert.equal(res.body.issue_title, 'Title');
           assert.equal(res.body.issue_text, 'text');
           assert.equal(res.body.created_by, 'Functional Test - Every field filled in');
@@ -104,7 +105,7 @@ suite('Functional Tests', function() {
     
     suite('PUT /api/issues/{project} => text', function() {
       
-      test('No body', function(done) { 
+      test('No body', function(done) {
         chai.request(server)
         .put('/api/issues/test')
         .send({_id: _id1})
