@@ -21,7 +21,7 @@ module.exports = function (app) {
     .get(function (req, res){
       var project = req.params.project;
       var searchQuery = req.query;
-      // if (searchQuery._id) { searchQuery._id = new ObjectId(searchQuery._id)}
+      if (searchQuery._id) { searchQuery._id = new ObjectId(searchQuery._id)}
     // following tests for whether searchQuery.open is set to the literal 'true' and sets the parameter to a logical true or false accordingly.
       if (searchQuery.open) { searchQuery.open = String(searchQuery.open) == "true" }  
       MongoClient.connect(CONNECTION_STRING, function(err, db) {
@@ -64,7 +64,7 @@ module.exports = function (app) {
       delete issueUpdates._id;
       for (var element in issueUpdates) { if (!issueUpdates[element]) { delete issueUpdates[element] } }
       if (issueUpdates.open) issueUpdates.open = String(issueUpdates.open) == "true"
-      if (Object.keys(issueUpdates.body).length === 0) {
+      if (Object.keys(issueUpdates).length === 0) {
         res.send('no updated fields sent');
       } else {
         issueUpdates.updated_on = new Date();
