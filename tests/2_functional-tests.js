@@ -47,6 +47,8 @@ suite('Functional Tests', function() {
           assert.equal(res.body.created_by, 'Functional Test - Every field filled in');
           assert.equal(res.body.assigned_to, 'Chai and Mocha');
           assert.equal(res.body.status_text, 'In QA');
+          assert.isBoolean(res.body.open);
+          assert.equal(res.body.open, true);
           
           done();
         });
@@ -77,6 +79,8 @@ suite('Functional Tests', function() {
           assert.equal(res.body.created_by, 'Functional Test - Required fields filled in');
           assert.equal(res.body.assigned_to, '');
           assert.equal(res.body.status_text, '');
+          assert.isBoolean(res.body.open);
+          assert.equal(res.body.open, true);
           
           done();
         });
